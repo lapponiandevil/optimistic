@@ -4,18 +4,19 @@
  *
  */
 
-import { fromJS } from 'immutable';
 import {
   SEND_MESSAGE,
   CHANGE_MESSAGE
 } from './constants';
 
-const initialState = fromJS({});
+const initialState = {
+  messages: []
+};
 
 function threadPageReducer(state = initialState, action) {
   switch (action.type) {
     case SEND_MESSAGE:
-      return state;
+      return state.messages.push(action.message);
     default:
       return state;
   }
