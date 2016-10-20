@@ -8,7 +8,7 @@ import { browserHistory } from 'react-router';
 describe('threadPageReducer', () => {
   let store;
   
-  before(() => {
+  beforeEach(() => {
     store = configureStore({}, browserHistory);
   });
 
@@ -22,5 +22,32 @@ describe('threadPageReducer', () => {
     };
     store.dispatch(sendMessage(msg));
     expect(store.getState().threadPage.messages[0]).toEqual(msg);
+  });
+  it('messages can be read in order', () => {
+    const makeMessage = (name, message) =>
+      store.dispatch(sendMessage({
+        userName: name,
+        body: message
+      })
+    );
+    makeMessage('Fabian', 'Detta ar min unika kreativitet');
+    makeMessage('Mikko', 'I am boss of code');
+    makeMessage('Henrik', 'management through cringe');
+    expect(store.getState().threadPage.messages).toEqual(
+      [
+        {
+          userName: 'Fabian',
+          body: 'Detta ar min unika kreativitet'
+        },
+        {
+          userName: 'Mikko',
+          body: 'I am boss of code'
+        },
+        {
+          userName: 'Henrik',
+          body: 'management through cringe'
+        }
+      ]
+    );
   });
 });

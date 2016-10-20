@@ -16,7 +16,9 @@ const initialState = {
 function threadPageReducer(state = initialState, action) {
   switch (action.type) {
     case SEND_MESSAGE:
-      return state.messages.push(action.message);
+      return Object.assign({}, state, {
+        messages: [...state.messages, action.message]
+      });
     default:
       return state;
   }
